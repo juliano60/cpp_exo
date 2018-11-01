@@ -2,6 +2,7 @@
 #include "Token.hpp"
 #include "TokenStreamImpl.hpp"
 #include <stdexcept>
+#include <cmath>
 
 namespace calculator {
 
@@ -58,6 +59,16 @@ namespace calculator {
 					}
 					break;
 				}
+				case TokenType::Mod:
+				{
+					if (double rhs = primary()) {
+						lhs = std::fmod(lhs, rhs);
+					}
+					else {
+						throw std::runtime_error("Invalid operand for mod operator");
+					}
+					break;
+				}
 				default:
 					ts_->putback(token);
 					return lhs;
@@ -72,6 +83,10 @@ namespace calculator {
 			switch (token.type) {
 			case TokenType::Numeric:
 					return token.nvalue;
+			case TokenType::Plus:
+					return primary();
+			case TokenType::Minus:
+					return -primary();
 			default:
 					throw std::runtime_error("Primary expected");
 			}

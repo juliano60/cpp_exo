@@ -15,6 +15,7 @@ namespace calculator {
 		void setInputStream(std::istream* in);
 		Token getNextToken();
 		void putback(Token);
+		void ignore(char ch);
 
 	private:
 		std::istream* input_;

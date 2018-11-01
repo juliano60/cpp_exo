@@ -13,6 +13,7 @@ namespace calculator {
 		virtual void setInputStream(std::istream* in) =0;
 		virtual Token getNextToken() =0;
 		virtual void putback(Token) =0;
+		virtual void ignore(char c) =0;
 	};
 
 }

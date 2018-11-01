@@ -10,6 +10,38 @@
 // add support for more operators
 // add GUI
 
+/* The calculator grammar is:
+ * Calculator:
+ * 		Statement
+ * 		Print
+ * 		Quit
+ * 		Calculator Statement
+ * 	Print:
+ * 		;
+ * 		newline
+ * 	Quit:
+ * 		q
+ * Statement:
+ * 		Declaration
+ * 		Expression
+ * 	Expression:
+ * 		Expression + Term
+ * 		Expression - Term
+ * 		Term
+ * 	Term:
+ * 		Term * Primary
+ * 		Term / Primary
+ * 		Term % Primary
+ * 		Primary
+ * 	Primary:
+ * 		Number
+ * 		Name
+ * 	Declaration:
+ * 		Let Name = Expression
+ *
+ *
+*/
+
 namespace {
 	const std::string result = "= ";
 	const std::string prompt = "> ";
@@ -21,10 +53,6 @@ void calculate();
 int main() {
 	try {
 		calculate();
-	}
-	catch (std::exception& e) {
-		std::cerr << e.what() << "\n";
-		return 1;
 	}
 	catch (...) {
 		std::cerr << "exception\n";
@@ -43,6 +71,7 @@ void calculate() {
 	std::cout << prompt;
 
 	while (std::cin) {
+		try {
 			calculator::Token tok = ts->getNextToken();
 
 			switch (tok.type) {
@@ -60,6 +89,12 @@ void calculate() {
 	 
 			double exp = ps.expression();
 			std::cout << "= " << exp << "\n";
+		}
+		catch (std::exception& e) {
+			std::cerr << e.what() << "\n";
+			ts->ignore(';');
+		}
+
 	}
 }
 

@@ -14,6 +14,7 @@ namespace calculator {
 		Minus='-',
 		Mult='*',
 		Div='/',
+		Mod='%',
 		Nul='\0',
 		Newline='\n',
 		Print=';',

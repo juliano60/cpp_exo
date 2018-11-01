@@ -14,6 +14,7 @@ namespace {
 	class MockTokenStream: public TokenStream {
 	public:
 		void setInputStream(std::istream*) {}
+		void ignore(char) {}
 		Token getNextToken() {
 			static std::array<Token, 6> tokens = {
 					Token{TokenType::Numeric, 2},

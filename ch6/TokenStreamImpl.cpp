@@ -40,7 +40,7 @@ namespace calculator {
 		case ';':
 		case 'q':
 		case '+': case '-':
-		case '*': case '/':
+		case '*': case '/': case '%':
 			return Token{static_cast<TokenType>(ch)};
 		case '0': case '1': case '2':
 		case '3': case '4': case '5':
@@ -66,6 +66,23 @@ namespace calculator {
 
 		buffer_ = token;
 		isFull_ = true;
+	}
+
+	// discard up to and including ch
+	void TokenStreamImpl::ignore(char ch) {
+		if (isFull_ && buffer_.type == static_cast<TokenType>(ch)) {
+			isFull_ = false;
+			return;
+		}
+
+		isFull_ = false;
+
+		char c = 0;
+		while ((*input_) >> c) {
+			if (c == ch) {
+				break;
+			}
+		}
 	}
 
 }
