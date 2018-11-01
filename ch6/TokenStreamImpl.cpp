@@ -3,6 +3,10 @@
 #include <cassert>
 #include <cctype>
 
+namespace {
+	const std::string declkey = "let";
+}
+
 namespace calculator {
 
 	TokenStreamImpl::TokenStreamImpl():
@@ -39,6 +43,7 @@ namespace calculator {
 		case '\n':
 		case ';':
 		case 'q':
+		case '=':
 		case '+': case '-':
 		case '*': case '/': case '%':
 			return Token{static_cast<TokenType>(ch)};
@@ -55,8 +60,24 @@ namespace calculator {
 			}
 		default:
 			{
-				std::string msg = "Invalid token: " + std::string{ch};
-				throw std::runtime_error{msg};
+				if (std::isalpha(ch)) {
+					std::string name{ch};
+
+					while (input_->get(ch) && std::isalnum(ch)) {
+						name += ch;
+					}
+
+					if (name == declkey) {
+						return Token{TokenType::Let, name};
+					}
+					else {
+						return Token{TokenType::Name, name};
+					}
+				}
+				else {
+					std::string msg = "Invalid token: " + std::string{ch};
+					throw std::runtime_error{msg};
+				}
 			}
 		}
 	}

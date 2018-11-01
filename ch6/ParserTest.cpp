@@ -44,5 +44,5 @@ TEST_CASE ("evaluateSimpleExpression") {
 	Parser ps;
 	ps.setTokenStream(new MockTokenStream);
 	
-	REQUIRE (ps.expression() == Approx(14.4));
+	REQUIRE (ps.statement() == Approx(14.4));
 }

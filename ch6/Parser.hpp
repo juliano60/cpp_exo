@@ -10,9 +10,11 @@ namespace calculator {
 		Parser();
 		void setInputStream(std::istream* in);
 		void setTokenStream(TokenStream* ts);
-		double expression();
+		double statement();
 
 	private:
+		double expression();
+		double declaration();
 		double term();
 		double primary();
 

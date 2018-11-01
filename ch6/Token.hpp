@@ -1,6 +1,8 @@
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
+#include <string>
+
 namespace calculator {
 
 	// A Token represents a token in our numerical expression.
@@ -19,12 +21,21 @@ namespace calculator {
 		Newline='\n',
 		Print=';',
 		Quit='q',
+		Let='L',
+		Equal='=',
 		Numeric,
+		Name,
 	};
 
 	struct Token {
 		TokenType type;
 		double nvalue;
+		std::string cvalue;
+
+		Token()=default;
+		Token(TokenType);
+		Token(TokenType, double);
+		Token(TokenType, const std::string& cvalue);
 	};
 
 }		

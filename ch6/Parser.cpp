@@ -1,6 +1,7 @@
 #include "Parser.hpp"
 #include "Token.hpp"
 #include "TokenStreamImpl.hpp"
+#include "SymbolTable.hpp"
 #include <stdexcept>
 #include <cmath>
 
@@ -83,6 +84,16 @@ namespace calculator {
 			switch (token.type) {
 			case TokenType::Numeric:
 					return token.nvalue;
+			case TokenType::Name:
+			{
+				std::map<std::string, double>& table = getSymbolTable();
+
+				if (table.find(token.cvalue) == table.end()) {
+					throw std::runtime_error("Name not found: " + token.cvalue);
+				}
+
+				return table[token.cvalue];
+			}
 			case TokenType::Plus:
 					return primary();
 			case TokenType::Minus:
@@ -90,6 +101,44 @@ namespace calculator {
 			default:
 					throw std::runtime_error("Primary expected");
 			}
+		}
+
+		double Parser::statement() {
+			Token token = ts_->getNextToken();
+
+			if (token.type == TokenType::Let) {
+				return declaration();
+			}
+			else {
+				ts_->putback(token);
+				return expression();
+			}
+		}		
+
+		double Parser::declaration() {
+			// read name
+			Token token = ts_->getNextToken();
+
+			if (token.type != TokenType::Name) {
+				throw std::runtime_error{"Name expected"};
+			}
+
+			std::string name = token.cvalue;
+
+			// read equal sign
+			token = ts_->getNextToken();
+
+			if (token.type != TokenType::Equal) {
+				throw std::runtime_error{"Missing equal operator"};
+			}
+
+			// read value
+			double val = expression();
+
+			// add to symbol table
+			getSymbolTable()[name] = val;	
+
+			return val;
 		}
 
 }

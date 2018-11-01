@@ -6,8 +6,6 @@
 
 // TODO
 // add support for parenthesized expressions
-// add support for variables
-// add support for more operators
 // add GUI
 
 /* The calculator grammar is:
@@ -87,7 +85,7 @@ void calculate() {
 				ts->putback(tok);
 			}
 	 
-			double exp = ps.expression();
+			double exp = ps.statement();
 			std::cout << "= " << exp << "\n";
 		}
 		catch (std::exception& e) {
