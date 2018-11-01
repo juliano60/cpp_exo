@@ -25,6 +25,7 @@
  * 	Expression:
  * 		Expression + Term
  * 		Expression - Term
+ * 		Name = Expression
  * 		Term
  * 	Term:
  * 		Term * Primary

@@ -92,6 +92,16 @@ namespace calculator {
 					throw std::runtime_error("Name not found: " + token.cvalue);
 				}
 
+				token = ts_->getNextToken();
+
+				// store new value
+				if (token.type == TokenType::Equal) {
+					table[token.cvalue] = expression();
+				}
+				else {
+						ts_->putback(token);
+				}
+
 				return table[token.cvalue];
 			}
 			case TokenType::Plus:
