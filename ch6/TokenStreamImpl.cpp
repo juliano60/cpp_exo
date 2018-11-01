@@ -37,11 +37,14 @@ namespace calculator {
 		switch (ch) {
 		case '\0':
 		case '\n':
+		case ';':
+		case '+': case '-':
+		case '*': case '/':
 			return Token{static_cast<TokenType>(ch)};
 		case '0': case '1': case '2':
 		case '3': case '4': case '5':
 		case '6': case '7': case '8':
-		case '9':
+		case '9': case '.':
 			{
 				double num = 0.0;
 				input_->putback(ch);
@@ -49,9 +52,6 @@ namespace calculator {
 				(*input_) >> num;
 				return Token{TokenType::Numeric, num};
 			}
-		case '+': case '-':
-		case '*': case '/':
-			return Token{static_cast<TokenType>(ch)};
 		default:
 			{
 				std::string msg = "Invalid token: " + std::string{ch};

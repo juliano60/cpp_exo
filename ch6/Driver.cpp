@@ -15,22 +15,25 @@ int main() {
 	ps.setTokenStream(ts);
 
 	try {
+		std::cout << "> ";
+
 		while (std::cin) {
-			std::cout << "Expression: ";
-			
 			calculator::Token tok = ts->getNextToken();
 
 			// skip empty lines
 			switch (tok.type) {
 			case calculator::TokenType::Newline:
+					std::cout << "> ";
+					continue;
 			case calculator::TokenType::Nul:
+			case calculator::TokenType::Print:
 					continue;
 			default:
 				ts->putback(tok);
 			}
 	 
 			double exp = ps.expression();
-			std::cout << "Result: " << exp << "\n";
+			std::cout << "= " << exp << "\n";
 		}
 	}
 	catch (std::exception& e) {

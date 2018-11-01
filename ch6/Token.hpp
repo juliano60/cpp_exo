@@ -16,6 +16,7 @@ namespace calculator {
 		Div='/',
 		Nul='\0',
 		Newline='\n',
+		Print=';',
 		Numeric,
 	};
 
