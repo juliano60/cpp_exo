@@ -16,17 +16,33 @@ namespace {
 }
 
 void displayInstructions();
+void calculate();
 
 int main() {
+	try {
+		calculate();
+	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << "\n";
+		return 1;
+	}
+	catch (...) {
+		std::cerr << "exception\n";
+		return 2;
+	}
+
+	return 0;
+}	
+
+void calculate() {
 	calculator::TokenStream* ts{new calculator::TokenStreamImpl};
 	calculator::Parser ps;
 	ps.setTokenStream(ts);
 
-	try {
-		displayInstructions();
-		std::cout << prompt;
+	displayInstructions();
+	std::cout << prompt;
 
-		while (std::cin) {
+	while (std::cin) {
 			calculator::Token tok = ts->getNextToken();
 
 			switch (tok.type) {
@@ -37,22 +53,15 @@ int main() {
 				continue;
 			case calculator::TokenType::Nul:
 			case calculator::TokenType::Quit:
-				return 0;
+				return;
 			default:
 				ts->putback(tok);
 			}
 	 
 			double exp = ps.expression();
 			std::cout << "= " << exp << "\n";
-		}
 	}
-	catch (std::exception& e) {
-		std::cerr << e.what() << "\n";
-		return 1;
-	}
-
-	return 0;
-}	
+}
 
 void displayInstructions() {
 	std::cout << "Welcome to our Calculator App!\n"
