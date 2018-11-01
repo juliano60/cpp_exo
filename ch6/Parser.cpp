@@ -31,6 +31,7 @@ namespace calculator {
 					lhs -= term();
 					break;
 				default:
+					ts_->putback(token);
 					return lhs;
 				}
 			}
