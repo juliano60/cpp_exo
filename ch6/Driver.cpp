@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Parser.hpp"
 #include "TokenStreamImpl.hpp"
 #include "Token.hpp"
@@ -9,6 +10,11 @@
 // add support for more operators
 // add GUI
 
+namespace {
+	const std::string result = "= ";
+	const std::string prompt = "> ";
+}
+
 void displayInstructions();
 
 int main() {
@@ -18,19 +24,20 @@ int main() {
 
 	try {
 		displayInstructions();
-		std::cout << "> ";
+		std::cout << prompt;
 
 		while (std::cin) {
 			calculator::Token tok = ts->getNextToken();
 
-			// skip empty lines
 			switch (tok.type) {
-			case calculator::TokenType::Newline:
-					std::cout << "> ";
-					continue;
-			case calculator::TokenType::Nul:
 			case calculator::TokenType::Print:
-					continue;
+				continue;
+			case calculator::TokenType::Newline:
+				std::cout << prompt;
+				continue;
+			case calculator::TokenType::Nul:
+			case calculator::TokenType::Quit:
+				return 0;
 			default:
 				ts->putback(tok);
 			}

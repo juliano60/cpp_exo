@@ -38,6 +38,7 @@ namespace calculator {
 		case '\0':
 		case '\n':
 		case ';':
+		case 'q':
 		case '+': case '-':
 		case '*': case '/':
 			return Token{static_cast<TokenType>(ch)};

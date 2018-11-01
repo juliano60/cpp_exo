@@ -17,6 +17,7 @@ namespace calculator {
 		Nul='\0',
 		Newline='\n',
 		Print=';',
+		Quit='q',
 		Numeric,
 	};
 
