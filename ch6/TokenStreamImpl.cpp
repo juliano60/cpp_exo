@@ -67,6 +67,8 @@ namespace calculator {
 						name += ch;
 					}
 
+					input_->putback(ch);
+
 					if (name == declkey) {
 						return Token{TokenType::Let, name};
 					}

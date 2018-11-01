@@ -88,7 +88,9 @@ namespace calculator {
 			{
 				std::map<std::string, double>& table = getSymbolTable();
 
-				if (table.find(token.cvalue) == table.end()) {
+				std::string name = token.cvalue;
+
+				if (table.find(name) == table.end()) {
 					throw std::runtime_error("Name not found: " + token.cvalue);
 				}
 
@@ -96,13 +98,13 @@ namespace calculator {
 
 				// store new value
 				if (token.type == TokenType::Equal) {
-					table[token.cvalue] = expression();
+					table[name] = expression();
 				}
 				else {
 						ts_->putback(token);
 				}
 
-				return table[token.cvalue];
+				return table[name];
 			}
 			case TokenType::Plus:
 					return primary();

@@ -3,6 +3,7 @@
 #include "Parser.hpp"
 #include "TokenStreamImpl.hpp"
 #include "Token.hpp"
+#include "SymbolTable.hpp"
 
 // TODO
 // add support for parenthesized expressions
@@ -25,7 +26,6 @@
  * 	Expression:
  * 		Expression + Term
  * 		Expression - Term
- * 		Name = Expression
  * 		Term
  * 	Term:
  * 		Term * Primary
@@ -35,6 +35,7 @@
  * 	Primary:
  * 		Number
  * 		Name
+ * 		Name = Expression
  * 	Declaration:
  * 		Let Name = Expression
  *
@@ -51,6 +52,10 @@ void calculate();
 
 int main() {
 	try {
+		// predefine some names
+		calculator::getSymbolTable()["pi"] = 3.1415926535;
+		calculator::getSymbolTable()["e"] = 2.7182818284;
+
 		calculate();
 	}
 	catch (...) {
